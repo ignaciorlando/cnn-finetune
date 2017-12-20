@@ -32,7 +32,7 @@ if numel(sampleQueue)<nSample,
   sample = [];
   for i=1:numel(cnt),
     if cnt(i)==cnt0(i),
-      sample = [sample labelMap{i}];
+      sample = [sample; labelMap{i}];
       continue;
     end
     labelMap{i} = labelMap{i}(randperm(numel(labelMap{i})));

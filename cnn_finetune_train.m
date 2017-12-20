@@ -141,8 +141,8 @@ for epoch=start+1:opts.numEpochs
   % train one epoch and validate
   learningRate = opts.learningRate(min(epoch, numel(opts.learningRate))) ;
 
-  [train, trainQueue] = next_samples(opts.train, trainQueue, imdb.images.class(opts.train), opts.batchSize*opts.maxIterPerEpoch(1), opts.balancingFunction{1});
-  [val, valQueue] = next_samples(opts.val, valQueue, imdb.images.class(opts.val), opts.batchSize*opts.maxIterPerEpoch(2), opts.balancingFunction{2});
+  [train, trainQueue] = next_samples(opts.train, trainQueue, imdb.images.label(opts.train), opts.batchSize*opts.maxIterPerEpoch(1), opts.balancingFunction{1});
+  [val, valQueue] = next_samples(opts.val, valQueue, imdb.images.label(opts.val), opts.batchSize*opts.maxIterPerEpoch(2), opts.balancingFunction{2});
 
   if numGpus <= 1
     [net,stats.train,prof] = process_epoch(opts, getBatch, epoch, train, learningRate, imdb, net) ;

@@ -97,12 +97,8 @@ for i=1:opts.numImages
     % acquire image
     switch opts.dataType
         case 'cell'
-            if isJpg
-                imt = imread(im{i}) ;
-                imt = single(imt) ; % faster than im2single (and multiplies by 255)
-            else
-                imt = im{i} ;
-            end
+            imt = imread(im{i}) ;
+            imt = single(imt) ; % faster than im2single (and multiplies by 255)
             if size(imt,3) == 1
                 imt = cat(3, imt, imt, imt) ;
             end
@@ -133,9 +129,7 @@ for i=1:opts.numImages
         factor = max(factor) ;
     end
     if any(abs(factor - 1) > 0.0001)
-        imt = imresize(imt, ...
-            'scale', factor, ...
-            'method', opts.interpolation) ;
+        imt = imresize(imt, factor, opts.interpolation) ;
     end
     
     % crop & flip

@@ -10,7 +10,7 @@ function [ imdb ] = get_imdb( datasetName, varargin )
 %   default: false
 
 
-args.func = @setup_imdb_generic;
+args.func = @setup_imdb_origa;
 args.rebuild = false;
 args = vl_argparse(args,varargin);
 

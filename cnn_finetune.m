@@ -9,9 +9,10 @@ opts.includeVal = false;
 opts.aug        = 'stretch'; 
 opts.border     = 0; 
 opts.pad        = 0; 
+opts.datafn = @setup_imdb_origa;
 [opts,varargin] = vl_argparse(opts, varargin) ;
 
-opts.train.learningRate = [0.05*ones(1,5) 0.01*ones(1,5) 0.001*ones(1,5) 0.0001*ones(1,5)]; 
+opts.train.learningRate = [0.00001*ones(1,5) 0.00001*ones(1,5) 0.00001*ones(1,5) 0.00001*ones(1,5)]; 
 opts.train.momentum = 0.9;
 opts.train.batchSize = 64;
 opts.train.maxIterPerEpoch = [Inf, Inf]; 
@@ -42,11 +43,12 @@ net = cnn_finetune_init(imdb,opts.baseNet);
 % -------------------------------------------------------------------------
 %                                                                     Learn
 % -------------------------------------------------------------------------
-trainable_layers = find(cellfun(@(l) isfield(l,'weights'),net.layers)); 
+trainable_layers = find(cellfun(@(l) isfield(l,'learningRate'),net.layers)); 
 fc_layers = find(cellfun(@(s) numel(s.name)>=2 && strcmp(s.name(1:2),'fc'),net.layers));
 fc_layers = intersect(fc_layers, trainable_layers);
 lr = cellfun(@(l) l.learningRate, net.layers(trainable_layers),'UniformOutput',false); 
 layers_for_update = {trainable_layers(end), fc_layers, trainable_layers}; 
+%layers_for_update = {trainable_layers(end), fc_layers}; 
 
 % tune last layer --> tune fc layers --> tune all layers
 for s = 1:numel(opts.numEpochs), 
@@ -97,17 +99,14 @@ isVal = ~isempty(batch) && imdb.images.set(batch(1)) ~= 1 ;
 
 if ~isVal
   % training
-  im = cnn_get_batch(images, opts, ...
-                              'prefetch', nargout == 0) ;
+  im = cnn_get_batch(images, opts, 'prefetch', nargout == 0) ;
 else
   % validation: disable data augmentation
-  im = cnn_get_batch(images, opts, ...
-                              'prefetch', nargout == 0, ...
-                              'transformation', 'none') ;
+  im = cnn_get_batch(images, opts, 'prefetch', nargout == 0, 'transformation', 'none') ;
 end
 
 if nargout > 0
-  labels = imdb.images.class(batch) ;
+  labels = imdb.images.label(batch) ;
 end
 
 

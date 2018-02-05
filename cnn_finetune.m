@@ -1,7 +1,7 @@
 function [net, info] = cnn_finetune(datasetName, varargin)
 
     % default parameters
-    opts.expDir = fullfile('data','exp') ;
+    opts.expDir = fullfile('..', 'data','exp') ;
     opts.baseNet = 'imagenet-matconvnet-vgg-m';
     opts.numEpochs = 40; 
     opts.numFetchThreads = 12 ;

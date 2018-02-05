@@ -1,4 +1,4 @@
-function setup(doCompile, matconvnetOpts)
+function setup_cnn_finetuning(doCompile, matconvnetOpts)
 % SETUP  Setup paths, dependencies, etc.
 % 
 %   doCompile:: false

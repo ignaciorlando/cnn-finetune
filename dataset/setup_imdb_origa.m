@@ -1,4 +1,4 @@
-function [imdb] = setup_imdb_origa( dataset_folder, varargin )
+function [imdb] = setup_imdb_origa( dataset_folder, image_source,  varargin )
 %
     opts.seed = 1 ;
     opts.datasetName = '';
@@ -12,7 +12,7 @@ function [imdb] = setup_imdb_origa( dataset_folder, varargin )
     % number of the data sets
     imdb.sets = {'train', 'val'};
     % setup image folder
-    imdb.imageDir = fullfile(dataset_folder, 'images');
+    imdb.imageDir = fullfile(dataset_folder, image_source);
     % classes ids
     imdb.classes.name = unique(labels);
     imdb.classes.description = { 'non-glaucomatous', 'glaucomatous' };

@@ -1,4 +1,4 @@
-function [net, info] = cnn_finetune(datasetName, varargin)
+function [net, info] = cnn_finetune(datasetName, image_source, varargin)
 
     % default parameters
     opts.expDir = fullfile('..', 'data','exp') ;
@@ -35,7 +35,7 @@ function [net, info] = cnn_finetune(datasetName, varargin)
 
     % load the database
     if isempty(opts.imdb) 
-      imdb = get_imdb(datasetName); 
+      imdb = get_imdb(datasetName, image_source); 
     else
       imdb = opts.imdb;
     end
